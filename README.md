@@ -3,18 +3,18 @@ This project name is “Student Verification System”. This application is deve
 </br>
 <h3>Featurs</h3>
 <h5>Users:</h5>
-<p>View Posts</p> 
-<h5>Search University Name</p> 
-<h5>Search Student</p> 
-<h5>Print certificate</p> 
+<span>View Posts</span><br> 
+<span>Search University Name</span> <br>
+<span>Search Student</span> <br>
+<span>Print certificate</span> <br>
 <h5>Admin:</h5>
-<p>Add University</p> 
-<p>Add Student</p> 
-<p>Add Batch Info</p> 
-<p>Add Departement university wise</p> 
-<p>create university link</p> 
-<p>Add Post</p> 
-<p>Mange messages</p> 
+<span>Add University</span> 
+<span>Add Student</span> 
+<span>Add Batch Info</span> 
+<span>Add Departement university wise</span> 
+<span>create university link</span> 
+<span>Add Post</span> 
+<span>Mange messages</span> 
 </br>
 <img src="verification/verification/img/01.PNG" width=1200 height=450>
 </br>
