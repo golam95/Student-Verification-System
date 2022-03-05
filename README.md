@@ -8,7 +8,7 @@ This project name is “Student Verification System”. This application is deve
 * Search Student<br>
 * Print certificate 
 <h4>Admin:</h4>
-* Add University</span> 
+* Add University</span> <br>
 * Add Student</span> <br>
 * Add Batch Info</span> <br>
 * Add Departement university wise</span> <br>
