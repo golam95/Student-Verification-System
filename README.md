@@ -1,5 +1,5 @@
 # Student-Verification-System
-This project is to develop a called “Student Verification System”. This game is developed using Object Oriented Programming language Java (Encapsulation and Abstraction). To develop the game Java platform is used.
+This project name is “Student Verification System”. This application is developed using Spring Boot,Jquery,JavaScript,Mysql,Theamleaf template engine.The main purpose of this application is verifiy student of any public or private university.First of all you need to visit this application and search university name then you need to enter department name and student id.After searching you will find student information if student department and Id is match show a cerficate and you will print it otherwise this application shows "your searching information is not available".
 </br>
 </br>
 <img src="verification/verification/img/01.PNG" width=1200 height=450>
