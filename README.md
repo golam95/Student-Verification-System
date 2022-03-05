@@ -2,12 +2,12 @@
 This project name is “Student Verification System”. This application is developed using Spring Boot, Jquery, JavaScript, Mysql, Theamleaf template engine.The main purpose of this application is verifiy student of any public or private university.First of all you need to visit this application and search university name then you need to enter department name and student id.After searching you will find student information if student department and Id is match show a cerficate and you will print it otherwise this application shows "your searching information is not available".
 </br>
 <h3>Featurs</h3>
-<h3>Users:</h3>
+<h4>Users:</h4>
 * View Posts<br> 
 * Search University Name <br>
 * Search Student <br>
 * Print certificate 
-<h3>Admin:</h3>
+<h4>Admin:</h4>
 * Add University</span> 
 * Add Student</span> <br>
 * Add Batch Info</span> <br>
