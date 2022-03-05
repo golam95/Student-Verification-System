@@ -12,7 +12,7 @@ This project name is “Student Verification System”. This application is deve
 * Add Student</span> <br>
 * Add Batch Info</span> <br>
 * Add Departement university wise</span> <br>
-* create university link</span> <br>
+* Create university link</span> <br>
 * Add Post</span> <br>
 * Mange messages</span> <br>
 <br>
