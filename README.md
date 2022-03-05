@@ -4,8 +4,8 @@ This project name is “Student Verification System”. This application is deve
 <h3>Featurs</h3>
 <h4>Users:</h4>
 * View Posts<br> 
-* Search University Name <br>
-* Search Student <br>
+* Search University Name<br>
+* Search Student<br>
 * Print certificate 
 <h4>Admin:</h4>
 * Add University</span> 
