@@ -2,7 +2,7 @@
 This project is to develop a  called “Student Verification”. This game is developed using Object Oriented Programming language Java (Encapsulation and Abstraction). To develop the game Java platform is used.
 </br>
 </br>
-<img src="verification/img/01.PNG" width=1200 height=450>
+<img src="verification/verification/img/01.PNG" width=1200 height=450>
 </br>
 <img src="verification/img/02.PNG" width=1200 height=450>
 </br>
