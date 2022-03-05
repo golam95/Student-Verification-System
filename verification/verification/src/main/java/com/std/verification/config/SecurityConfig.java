@@ -1,0 +1,88 @@
+package com.std.verification.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import com.std.verification.service.UserService;
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+	    @Autowired
+		private UserService userService;
+
+		@Autowired
+		private AuthenticationUser authenticationUser;
+
+		@Override
+		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+			auth.authenticationProvider(authenticationProvider());
+		}
+
+		private static final String[] PUBLIC_MATCHERS = {
+				"/assets/**",
+				"/custom/**",
+				"/dist/**",
+				"/img/**",
+				"/plugins/**",
+				"/",
+				"/login",
+				"/ajax/searchStudent",
+				"/ajax/generate-report",
+				"/ajax/saveContact",
+				"/userSearch",
+				"/blog"
+			};
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.csrf().disable();
+	  //  http.authorizeRequests().antMatchers("/admin**").access("hasRole('ADMIN')");
+	 
+		http.authorizeRequests().antMatchers("/admin/**").access("isAuthenticated()");
+        
+  
+		http
+		.authorizeRequests().
+	    antMatchers(PUBLIC_MATCHERS).
+		permitAll()
+//	    .antMatchers("/admin**").hasRole("ADMIN")
+//	    .anyRequest().authenticated()
+		.antMatchers("/admin**").access("hasRole('ADMIN')")
+		.and()
+		.formLogin()
+			.loginPage("/login")
+			.loginProcessingUrl("/authenticateTheUser")
+			.successHandler(authenticationUser)
+			.permitAll()
+		.and()
+		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.and()
+		.exceptionHandling().accessDeniedPage("/access-denied");
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+		auth.setUserDetailsService(userService);
+		auth.setPasswordEncoder(passwordEncoder());
+		return auth;
+	}
+
+}

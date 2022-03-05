@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="common/layout/base">
+
+<div layout:fragment="adminContent" id="scroll">
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h4 class="m-0">Create University URL</h4>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+						<li class="breadcrumb-item active">URL</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="card card-outline card-primary">
+			<div class="card-header">
+				<h3 class="card-title"></h3>
+
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool"
+						data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+					<button type="button" class="btn btn-tool"
+						data-card-widget="remove">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<!-- /.card-header -->
+			
+			
+		<form id="std_general_form">
+		
+			<div class="card-body" style="display: block;">
+				<div class="row">
+					<div class="col-md-6" data-select2-id="29">
+						<div class="form-group">
+							<label>University<span class="errorMsg">*</span></label>
+							<input type="hidden" id="updateId"/>
+							<input type="hidden" id="hasNewImage"/>
+							 <select
+								class="form-control" id="uniId">
+						        <option value="">--Select--</option>
+                                <option th:each="resultMap : ${getUniversityMap}"
+                                        th:value="${resultMap.unID}"
+                                        th:text="${resultMap.universityName}">
+                                </option>
+							</select>
+							<span class="errorMsg" id="errorMsgUniId"></span>
+						</div>
+					</div>
+					
+					
+					<div class="col-md-6" data-select2-id="29">
+						<div class="form-group">
+							<label>URL<span class="errorMsg">*</span></label> <input
+								class="form-control filter" type="text"
+								placeholder="Enter URL Name" id="deptName"> <span
+								class="errorMsg" id="errorMsgdeptName"></span>
+							</div>
+					</div>
+					
+					
+				<div class="col-md-6" data-select2-id="29">
+						<div class="form-group">
+							<label>Logo<span class="errorMsg">*</span>
+						 </label> 
+						<input type="file" class="form-control col-md-7 col-xs-7" 
+                                                       id="file" name="file"/>
+                                               <img id="logo_view"
+                                                     alt=""
+                                                     height="180"
+                                                     width="174"/>
+                                <span class="errorMsg" id="err-logo-img"></span>
+                             	
+						</div>
+					</div>
+					
+					
+					
+				</div>
+                   
+
+				<div class="margin">
+					<div class="btn-group">
+						<button style="color: #ffffff;" type="button"
+							class="btn btn-block bg-gradient-info btn-sm" id='btn-dept-save'>
+							<i class="far fa-save"></i> Save
+						</button>
+					</div>
+
+					<div class="btn-group">
+						<button style="color: #ffffff;" type="button"
+							class="btn btn-block bg-gradient-warning btn-sm"
+							id='btn-dept-reset'>
+							<i class="fas fa-sync"></i> Reset
+						</button>
+					</div>
+                </div>
+           </div>
+           
+           </form>
+		</div>
+
+
+
+		<div class="card card-default">
+			<div class="card-header">
+				<h3 class="card-title"></h3>
+
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool"
+						data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+					<button type="button" class="btn btn-tool"
+						data-card-widget="remove">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body" style="display: block;">
+				<table class="table table-bordered" id="tbl-department">
+					<thead>
+						<tr style="text-align:center;">
+							<th style="width: 10px">#</th>
+							<th>University</th>
+							<th>URL</th>
+							<th>Date</th>
+							<th>Image</th>
+							<th style="width: 100px">Action</th>
+						</tr>
+					</thead>
+					<tbody style="text-align:center;">
+				   </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div layout:fragment="script">
+
+
+<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							
+							 $("#nav-linkcreateLink").addClass("active");
+							 $("#nav-itemLink").addClass("active menu-is-opening menu-open");
+							 $('#logo_view').attr("src", "/img/no-img.PNG");
+
+							 function readURLPhoto(input) {
+							        if (input.files && input.files[0]) {
+							            var reader = new FileReader();
+							            reader.onload = function (e) {
+							                $('#logo_view').attr('src', e.target.result);
+							            }
+							            reader.readAsDataURL(input.files[0]);
+							            $("#err-logo-img").text("");
+							        }
+							    }
+							 
+							 
+							  $("#file").change(function () {
+							                var file = this.files[0];
+							                var fileType = file["type"];
+							                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+							                if ($.inArray(fileType, validImageTypes) < 0) {
+							                    $("#err-logo-img").text("Only gif/jpeg/png is allowed!");
+							                }else {
+							                  if (this.files[0].size > 1048576) {
+							                        $("#err-logo-img").text("Photo size can't be greater than 1MB!");
+							                     } else {
+							                    	 readURLPhoto(this);
+							                    }
+							                }
+							        });
+							  
+							
+							  $(document).on("click", "#btn-dept-save", function (e) {
+						         
+						            if (dataValidation()) {
+						            	var stdBasicInfo = {};
+										stdBasicInfo.uniId = $("#uniId").val();
+										stdBasicInfo.urlName = $("#deptName").val();
+										stdBasicInfo.updateId = $("#updateId").val();
+										stdBasicInfo.hasNewImage = $("#hasNewImage").val();
+										
+										
+										 var form = $('#std_general_form')[0];
+								         var data = new FormData(form);
+								         data.append("createLinkDto", JSON.stringify(stdBasicInfo));
+						            	
+						                $.ajax({
+						                    url: "/ajax/create-link-logo",
+						                    type: "POST",
+						                    data: data,
+						                    enctype: 'multipart/form-data',
+						                    async: false,
+						                    processData: false,
+						                    contentType: false,
+						                    dataType: 'json',
+						                    cache: false,
+						                    success: function (res) {
+						                    	if(res.msgCode=='200'){
+						                    		$.confirm({
+				                     		         	type: 'green',
+				                     		         	title: '<i class="fas fa-check-circle" aria-hidden="true" style="color:#51D88A;"></i> '+'Success!!',
+				                     		             content: 'save university URL successfully.',
+				                                             buttons: {
+				                     		                 ok: function () {
+				                     		                   
+				                     		                 }
+				                     		             }
+				                     		         });
+						                    		table.ajax.reload();
+						                    		resetText(); 
+						                    	}else if(res.msgCode=='300'){
+						                    		showCustomAlert('W','Sorry url already exit!!');
+						                    	}
+						                    	
+						                    },
+						                    error: function (jqXHR, textStatus, errorThrown) {
+						                    	showCustomAlert('F','Something wrong!!');
+						                    }
+						                });
+						            }
+
+						        });
+
+
+
+							    
+							   
+							function dataValidation() {
+
+								var status = true;
+								
+							
+								if ($("#uniId").val() == "") {
+									status = false;
+									$("#errorMsgUniId").text(
+											"Required Field!!");
+									$("#uniId")
+											.css('border', '1px solid red');
+									$("#uniId").focus();
+									return status;
+								} else {
+									$("#errorMsgUniId").text("");
+									$("#uniId").css('border',
+											'1px solid #CED4DA');
+								}
+								
+								
+								if ($("#deptName").val() == "") {
+									status = false;
+									$("#errorMsgdeptName").text(
+											"Required Field!!");
+									$("#deptName").css('border',
+											'1px solid red');
+									$("#deptName").focus();
+									return status;
+								} else if ($("#deptName").val().length > 150) {
+									status = false;
+									$("#errorMsgdeptName").text(
+											"Allow maximum 150 characters!!");
+									$("#deptName").css('border',
+											'1px solid red');
+									$("#deptName").focus();
+									return status;
+									
+									
+								} else if ($("#deptName").val().length < 1) {
+									status = false;
+									$("#errorMsgdeptName").text(
+											"Invalid Department!!");
+									$("#deptName").css('border',
+											'1px solid red');
+									$("#deptName").focus();
+									return status;
+								} else {
+									$("#errorMsgdeptName").text("");
+									$("#deptName").css('border',
+											'1px solid #CED4DA');
+								}
+								
+								
+								if($("#hasNewImage").val()=='false'){
+									
+									if ($("#file").val() == "") {
+										status = false;
+										$("#err-logo-img").text("Required Field!!");
+										$("#file").css('border', '1px solid red');
+										$("#file").focus();
+										return status;
+									} else {
+										$("#err-logo-img").text("");
+										$("#file").css('border','1px solid #CED4DA');
+									}
+								}
+								return status;
+							}
+							
+
+							$("#btn-dept-reset").click(function() {
+								resetText();
+							});
+							
+							
+							
+							var i=0;
+							var table = $('#tbl-department')
+									.DataTable(
+											{
+												"sAjaxSource" : "/ajax/get-create-link-logo-list",
+												"sAjaxDataProp" : "",
+												"order" : [ [ 0, "asc" ] ],
+												"aoColumns" : [
+														{
+															"mData" : "urlId",
+															"render" : function(data, type, row) {
+																i+=1;
+																return i;
+															}
+														},
+														{
+															"mData" : "name"
+														},
+														{
+															"mData" : "urlName"
+														},{
+															"mData" : "date",
+															"render" : function(data, type, row) {
+																	return data;
+																}
+														},{
+															"mData" : "logo",
+															"render" : function(data, type, row) {
+																return '<img style="width:40px;height:40px;" src="'+'data:image/jpg;base64,'+data+'" />';
+															
+																}
+														},
+														{
+															"className" : "dt-btn",
+															"render" : function() {
+																return '<div class="btn-group btn-group-sm"> <a href="#" class="btn btn-info" id="editUnID"><i class="fas fa-user-edit"></i></a><a href="#" class="btn btn-danger" id="deleteUnID"><i class="fas fa-trash"></i></a></div>';
+															}
+														} ],
+														"fnCreatedRow": function (nRow, aData, iDataIndex) {
+									                        $('td:eq(1)', nRow).attr("data-id", aData.urlId);
+									                        $('td:eq(2)', nRow).attr("data-id", aData.uniId);
+									                     }
+                                              });
+							
+							 
+							   $('#tbl-department tbody').on('click', '#deleteUnID', function () {
+							        var curRow = $(this).closest('tr');
+							        var urlId = curRow.find('td:eq(1)').attr("data-id");
+							      
+							        if (urlId != '') {
+							        	
+							            $.confirm({
+							            	type: 'orange',
+							            	title: '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:orange;"></i> '+'Confirm!',
+							                content: 'Do you want to delete?',
+							                buttons: {
+							                    ok: function () {
+							                        $.ajax({
+							                            url: "/ajax/deleteLink?urlId=" + urlId,
+							                            type: 'GET',
+							                            dataType: 'json',
+							                            success: function (data) {
+							                            	if(data.msgCode=='200'){
+							                            		i=0;
+							                            		$.confirm({
+							                     		         	type: 'green',
+							                     		         	title: '<i class="fas fa-check-circle" aria-hidden="true" style="color:#51D88A;"></i> '+'Success!!',
+							                     		             content: 'Delete university URL successfully.',
+							                                             buttons: {
+							                     		                 ok: function () {
+							                     		                   
+							                     		                 }
+							                     		             }
+							                     		         });
+																table.ajax.reload();
+																resetText(); 
+														}
+							                              
+							                            },
+							                            error: function (xhr, status, error) {
+							                                showAlertByType('Something Wrong!', "F");
+							                            }
+							                        });
+							                    },
+							                    cancel: function () {
+
+							                    }
+							                }
+							            });
+							        }
+							    });
+							   
+							   $("#hasNewImage").val(false);
+ 
+							   
+							   $('#tbl-department tbody').on('click', '#editUnID', function () {
+								   
+								   $("#hasNewImage").val(true);
+								   
+								   $("#uniId").css('border','1px solid #CED4DA');
+									$("#deptName").css('border','1px solid #CED4DA');
+									$("#errorMsgUniId").text("");
+								    $("#errorMsgdeptName").text("");
+								    $("#err-logo-img").text("");
+									$("#file").css('border','1px solid #CED4DA');
+									
+								   var curRow = $(this).closest('tr');
+								   var urlId = curRow.find('td:eq(1)').attr("data-id");
+								   
+		                                 $.get("/ajax/get-link-data-byId?urlId=" + urlId,
+											
+											function(data, status) {
+		                                	 $("#uniId").val(data.uniId);
+		                                	 $("#updateId").val(urlId);
+		                                	 $("#deptName").val(data.urlName);
+		                                	 
+		                                	 $('#logo_view').attr("src", 'data:image/jpg;base64,'+data.uniLogoBlob);
+		                                });
+								   $('html, body').animate({
+							            scrollTop: $('#scroll').offset().top
+							        }, 500);
+							    });
+   	   
+							function resetText() {
+								$("#uniId").val('');
+								$("#deptName").val('');
+								$("#updateId").val('');
+								$("#uniId").css('border','1px solid #CED4DA');
+								$("#deptName").css('border','1px solid #CED4DA');
+								$("#errorMsgUniId").text("");
+							    $("#errorMsgdeptName").text("");
+							    $("#file").val('');
+								$("#err-logo-img").text("");
+								$("#file").css('border','1px solid #CED4DA');
+								$('#logo_view').attr("src", "/img/no-img.PNG");
+								$("#hasNewImage").val(false)
+						     }
+
+						});
+	</script>
+</div>
+<div layout:fragment="css">
+	<style>
+.errorMsg {
+	color: red;
+	font-size: 13px;
+}
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 1px solid #DEE2E6;
+}
+table.dataTable.no-footer {
+    border-bottom: 1px solid #DEE2E6;
+}
+</style>
+</div>
