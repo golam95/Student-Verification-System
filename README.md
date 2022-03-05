@@ -3,10 +3,10 @@ This project name is “Student Verification System”. This application is deve
 </br>
 <h3>Featurs</h3>
 <h4>Users:</h4>
-<span style="font-size:8px;">View Posts</span><br> 
-<span style="font-size:8px;">Search University Name</span> <br>
-<span style="font-size:8px;">Search Student</span> <br>
-<span style="font-size:8px;">Print certificate</span> <br>
+<span style="font-size:5px;">View Posts</span><br> 
+<span style="font-size:5px;">Search University Name</span> <br>
+<span style="font-size:5px;">Search Student</span> <br>
+<span style="font-size:5px;">Print certificate</span> <br>
 <h4>Admin:</h4>
 <span>Add University</span> 
 <span>Add Student</span> 
